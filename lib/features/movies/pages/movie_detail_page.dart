@@ -49,7 +49,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
   void _bookTickets() {
     Navigator.of(context).pushNamed(
-      AppRouter.seatSelection,
+      AppRouter.dateSelection,
       arguments: _detailedMovie ?? widget.movie,
     );
   }
@@ -116,8 +116,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                 fit: StackFit.expand,
                 children: [
                   CachedNetworkImage(
-                    imageUrl:
-                        _detailedMovie?.backdropUrl ?? widget.movie.backdropUrl,
+                    imageUrl: _detailedMovie?.backdropUrl ?? widget.movie.backdropUrl,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Container(
                       color: AppTheme.surface,
@@ -178,7 +177,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                     ),
                   ),
                 ),
-                // Movie title and info overlaid on poster - positioned at bottom
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -219,13 +217,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                               ),
                             ),
                             onPressed: _bookTickets,
-                            child: const Text(
-                              'Get Tickets',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                            child: const Text('Select Seats',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                )),
                           ),
                         ),
                         const SizedBox(height: 12),
