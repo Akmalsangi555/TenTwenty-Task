@@ -100,8 +100,7 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               children: [
-                Text(
-                  _headerText(),
+                Text(_headerText(),
                   style: const TextStyle(color: Colors.black54, fontSize: 13),
                 ),
               ],

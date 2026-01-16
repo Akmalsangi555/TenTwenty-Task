@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tentwenty_task/core/app_theme.dart';
@@ -21,59 +20,11 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
   String _currentQuery = '';
   bool _hasSearched = false;
 
-  // Dummy category data
-  final List<Map<String, String>> _categories = [
-    {
-      'name': 'Comedies',
-      'image':
-          'https://image.tmdb.org/t/p/w500/xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg',
-    },
-    {
-      'name': 'Crime',
-      'image':
-          'https://image.tmdb.org/t/p/w500/aq4Pwv5Xeuvj6HZGtx2sFk0y5iC.jpg',
-    },
-    {
-      'name': 'Family',
-      'image':
-          'https://image.tmdb.org/t/p/w500/7GsM4mtM0worCtIVeiQt28HieeN.jpg',
-    },
-    {
-      'name': 'Documentaries',
-      'image':
-          'https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg',
-    },
-    {
-      'name': 'Dramas',
-      'image':
-          'https://image.tmdb.org/t/p/w500/iUgygt3fscRoKWCV1d0C3FbM9ht.jpg',
-    },
-    {
-      'name': 'Fantasy',
-      'image':
-          'https://image.tmdb.org/t/p/w500/xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg',
-    },
-    {
-      'name': 'Holidays',
-      'image':
-          'https://image.tmdb.org/t/p/w500/aq4Pwv5Xeuvj6HZGtx2sFk0y5iC.jpg',
-    },
-    {
-      'name': 'Horror',
-      'image':
-          'https://image.tmdb.org/t/p/w500/7GsM4mtM0worCtIVeiQt28HieeN.jpg',
-    },
-    {
-      'name': 'Sci-Fi',
-      'image':
-          'https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg',
-    },
-    {
-      'name': 'Thriller',
-      'image':
-          'https://image.tmdb.org/t/p/w500/iUgygt3fscRoKWCV1d0C3FbM9ht.jpg',
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    context.read<MoviesBloc>().add(const LoadAll());
+  }
 
   @override
   void dispose() {
@@ -97,67 +48,8 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
   }
 
   void _openDetail(Movie movie) {
+    FocusScope.of(context).unfocus();
     Navigator.of(context).pushNamed(AppRouter.detail, arguments: movie);
-  }
-
-  Widget _buildCategoryCard(Map<String, String> category) {
-    return GestureDetector(
-      onTap: () {
-        _searchController.text = category['name']!;
-        _performSearch(category['name']!);
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 0),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              CachedNetworkImage(
-                imageUrl: category['image']!,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Container(
-                  color: AppTheme.surface,
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  color: AppTheme.surface,
-                  child: const Icon(Icons.error),
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withValues(alpha: 0.7),
-                      ],
-                    ),
-                  ),
-                  child: Text(
-                    category['name']!,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   Widget _buildMovieCard(Movie movie) {
@@ -237,18 +129,59 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
     );
   }
 
-  Widget _buildCategoriesGrid() {
+  Widget _buildMovieGrid(List<Movie> movies) {
     return GridView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 50),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 1.2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
       ),
-      itemCount: _categories.length,
+      itemCount: movies.length,
       itemBuilder: (context, index) {
-        return _buildCategoryCard(_categories[index]);
+        final movie = movies[index];
+        return GestureDetector(
+          onTap: () => _openDetail(movie),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                CachedNetworkImage(
+                  imageUrl: movie.posterUrl,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    color: AppTheme.surface,
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: AppTheme.surface,
+                    child: const Icon(Icons.error),
+                  ),
+                ),
+                Positioned(
+                  bottom: 30,
+                  left: 10,
+                  right: 0,
+                  child: Text(
+                    movie.title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       },
     );
   }
@@ -340,9 +273,25 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
         padding: const EdgeInsets.symmetric(vertical: 1),
         child: BlocBuilder<MoviesBloc, MoviesState>(
           builder: (context, state) {
-            // Show categories when no search query
             if (_currentQuery.isEmpty && !_hasSearched) {
-              return _buildCategoriesGrid();
+              if (state.status == MoviesStatus.loading &&
+                  state.upcoming.isEmpty) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state.upcoming.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No upcoming movies found',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: AppTheme.textSecondary,
+                    ),
+                  ),
+                );
+              }
+              return SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: _buildMovieGrid(state.upcoming),
+              );
             }
 
             // Show loading state
@@ -392,35 +341,38 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
 
             // Show search results
             if (state.searchResults.isNotEmpty) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Top Results',
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          '${state.searchResults.length} Results Found',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: AppTheme.textSecondary),
-                        ),
-                      ],
+              return SingleChildScrollView(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Top Results',
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            '${state.searchResults.length} Results Found',
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(color: AppTheme.textSecondary),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.searchResults.length,
                       itemBuilder: (context, index) {
                         return _buildMovieCard(state.searchResults[index]);
                       },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
 

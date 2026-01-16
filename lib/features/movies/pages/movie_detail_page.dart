@@ -1,13 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tentwenty_task/core/app_theme.dart';
 import 'package:tentwenty_task/core/app_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tentwenty_task/features/movies/models/movie.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:tentwenty_task/features/movies/bloc/movies_bloc.dart';
 import 'package:tentwenty_task/features/movies/bloc/movies_event.dart';
 import 'package:tentwenty_task/features/movies/bloc/movies_state.dart';
-import 'package:tentwenty_task/features/movies/models/movie.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieDetailPage extends StatefulWidget {
   final Movie movie;

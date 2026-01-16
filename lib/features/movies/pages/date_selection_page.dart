@@ -13,7 +13,7 @@ class DateSelectionPage extends StatefulWidget {
 }
 
 class _DateSelectionPageState extends State<DateSelectionPage> {
-  final List<String> dates = ['5 Mar', '6 Mar', '7 Mar', '8 Mar', '9 Mar'];
+  final List<String> dates = ['5 Mar', '6 Mar', '7 Mar', '8 Mar', '9 Mar', '10 Mar'];
   int selectedDateIndex = 0;
   int selectedShowIndex = 0;
 
@@ -137,43 +137,41 @@ class _DateSelectionPageState extends State<DateSelectionPage> {
         children: [
           Row(
             children: [
-              Text(
-                time,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              Text(time,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
               ),
               const SizedBox(width: 6),
-              Text(
-                hall,
+              Text(hall,
                 style: const TextStyle(fontSize: 12, color: Colors.black54),
               ),
             ],
           ),
-          Container(
-            width: 240,
-            height: 200,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: selected ? AppTheme.lightBlueColor : Colors.black12,
-                width: selected ? 1 : 1,
-              ),
-            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Container(
-              height: 110,
+              width: 270,
+              height: 200,
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: selected ? AppTheme.lightBlueColor : Colors.black12,
+                  width: selected ? 1 : 1,
                 ),
               ),
-              child: const _MiniSeatPreview(),
+              child: Container(
+                child: const _MiniSeatPreview(),
+              ),
             ),
           ),
-          Text(
-            priceText,
-            style: const TextStyle(color: AppTheme.lightBlueColor, fontSize: 12),
+          Row(
+            children: [
+              Text(
+                priceText,
+                style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+              ),
+            ],
           ),
         ],
       ),
@@ -217,7 +215,7 @@ class _MiniSeatPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final arcPaint = Paint()
       ..color = AppTheme.lightBlueColor
-      ..strokeWidth = 1.5
+      ..strokeWidth = 0.7
       ..style = PaintingStyle.stroke;
     final arcPath = Path();
     arcPath.moveTo(size.width * 0.08, size.height * 0.15);

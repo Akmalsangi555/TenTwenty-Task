@@ -1,163 +1,169 @@
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:tentwenty_task/features/movies/models/movie.dart';
+import 'package:tentwenty_task/features/movies/models/upcoming_movies_model.dart';
 
 class MoviesRepository {
-  // Dummy data for now - API implementation will be done later
-  Future<List<Movie>> getUpcomingMovies() async {
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 500));
+  static const String _apiKey = String.fromEnvironment(
+    'TMDB_API_KEY',
+    defaultValue: '0d15df7acd7ee29f70b4cc4d3236309e',
+  );
+  static const String _apiToken = String.fromEnvironment(
+    'TMDB_TOKEN',
+    defaultValue: '',
+  );
+  static const String _baseUrl = 'https://api.themoviedb.org/3';
+  static const String _imageW500 = 'https://image.tmdb.org/t/p/w500';
+  static const String _imageW1280 = 'https://image.tmdb.org/t/p/w1280';
 
-    return [
-      Movie(
-        id: 1,
-        title: 'Free Guy',
-        posterUrl:
-            'https://image.tmdb.org/t/p/w500/xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg',
-        backdropUrl:
-            'https://image.tmdb.org/t/p/w1280/8Y43POKjjKDGI9MH89NW0NAzzp8.jpg',
-        overview:
-            'A bank teller discovers he is actually a background player in an open-world video game.',
-        genres: ['Action', 'Comedy', 'Sci-Fi'],
-        releaseDate: '2021-08-13',
-        rating: 7.2,
-        trailerKey: 'X2m-08cOAbc',
-        runtime: 115,
-      ),
-      Movie(
-        id: 2,
-        title: 'The King\'s Man',
-        posterUrl:
-            'https://image.tmdb.org/t/p/w500/aq4Pwv5Xeuvj6HZGtx2sFk0y5iC.jpg',
-        backdropUrl:
-            'https://image.tmdb.org/t/p/w1280/4OTYefcAlaShn6TGVK33UtdLWEr.jpg',
-        overview:
-            'As a collection of history\'s worst tyrants and criminal masterminds gather to plot a war to wipe out millions, one man must race against time to stop them.',
-        genres: ['Action', 'Adventure', 'Comedy'],
-        releaseDate: '2021-12-22',
-        rating: 6.4,
-        trailerKey: '5mkmbq3_5mA',
-        runtime: 131,
-      ),
-      Movie(
-        id: 3,
-        title: 'Jojo Rabbit',
-        posterUrl:
-            'https://image.tmdb.org/t/p/w500/7GsM4mtM0worCtIVeiQt28HieeN.jpg',
-        backdropUrl:
-            'https://image.tmdb.org/t/p/w1280/1q3Fc8KkfGgS0z3oW5z3qJZ3x3x.jpg',
-        overview:
-            'A young boy in Hitler\'s army finds out his mother is hiding a Jewish girl in their home.',
-        genres: ['Comedy', 'Drama', 'War'],
-        releaseDate: '2019-10-18',
-        rating: 8.0,
-        trailerKey: 'tLm8i1x1hUQ',
-        runtime: 108,
-      ),
-      Movie(
-        id: 4,
-        title: 'Dune',
-        posterUrl:
-            'https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg',
-        backdropUrl:
-            'https://image.tmdb.org/t/p/w1280/jYEW5xZkZk2WTrdbMGAPFuBqbDc.jpg',
-        overview:
-            'Paul Atreides leads a rebellion to restore his family\'s reign over the desert planet Arrakis.',
-        genres: ['Sci-Fi', 'Adventure'],
-        releaseDate: '2021-10-22',
-        rating: 8.0,
-        trailerKey: 'n9xhJrPXop4',
-        runtime: 155,
-      ),
-      Movie(
-        id: 5,
-        title: 'No Time to Die',
-        posterUrl:
-            'https://image.tmdb.org/t/p/w500/iUgygt3fscRoKWCV1d0C3FbM9ht.jpg',
-        backdropUrl:
-            'https://image.tmdb.org/t/p/w1280/1Rr5SrvHxXHuA8jKnd3rq9odku9.jpg',
-        overview:
-            'James Bond has left active service. His peace is short-lived when Felix Leiter, an old friend from the CIA, turns up asking for help.',
-        genres: ['Action', 'Thriller', 'Adventure'],
-        releaseDate: '2021-10-08',
-        rating: 7.3,
-        trailerKey: 'BIhNsAtPbPI',
-        runtime: 163,
-      ),
-      Movie(
-        id: 6,
-        title: 'Timeless',
-        posterUrl:
-            'https://image.tmdb.org/t/p/w500/xmbU4JTUm8rsdtn7Y3Fcm30GpeT.jpg',
-        backdropUrl:
-            'https://image.tmdb.org/t/p/w1280/8Y43POKjjKDGI9MH89NW0NAzzp8.jpg',
-        overview:
-            'A time-traveling adventure series following a team of heroes.',
-        genres: ['Fantasy', 'Sci-Fi', 'Adventure'],
-        releaseDate: '2016-10-03',
-        rating: 7.8,
-        trailerKey: 'X2m-08cOAbc',
-        runtime: 45,
-      ),
-      Movie(
-        id: 7,
-        title: 'In Time',
-        posterUrl:
-            'https://image.tmdb.org/t/p/w500/aq4Pwv5Xeuvj6HZGtx2sFk0y5iC.jpg',
-        backdropUrl:
-            'https://image.tmdb.org/t/p/w1280/4OTYefcAlaShn6TGVK33UtdLWEr.jpg',
-        overview:
-            'In a future where people stop aging at 25 and must work to buy themselves more time, a man is accused of murder and goes on the run.',
-        genres: ['Sci-Fi', 'Action', 'Thriller'],
-        releaseDate: '2011-10-28',
-        rating: 6.7,
-        trailerKey: '5mkmbq3_5mA',
-        runtime: 109,
-      ),
-      Movie(
-        id: 8,
-        title: 'A Time To Kill',
-        posterUrl:
-            'https://image.tmdb.org/t/p/w500/7GsM4mtM0worCtIVeiQt28HieeN.jpg',
-        backdropUrl:
-            'https://image.tmdb.org/t/p/w1280/1q3Fc8KkfGgS0z3oW5z3qJZ3x3x.jpg',
-        overview:
-            'A young lawyer defends a black man accused of murdering two men who raped his 10-year-old daughter.',
-        genres: ['Crime', 'Drama', 'Thriller'],
-        releaseDate: '1996-07-24',
-        rating: 7.4,
-        trailerKey: 'tLm8i1x1hUQ',
-        runtime: 149,
-      ),
-    ];
+  Map<String, String> _headers() {
+    if (_apiToken.isNotEmpty) {
+      return {'Authorization': 'Bearer $_apiToken'};
+    }
+    return {};
+  }
+
+  Uri _buildUri(String path, [Map<String, String>? query]) {
+    final q = Map<String, String>.from(query ?? {});
+    // Always use API Key if token is missing, or as fallback
+    if (_apiToken.isEmpty && _apiKey.isNotEmpty) {
+      q['api_key'] = _apiKey;
+    }
+    // Note: TMDb V3 works with api_key query param even if using Bearer, but Bearer is preferred.
+    // If we have no token, we MUST use api_key.
+    // The previous logic was: if _apiKey is not empty, add it.
+    // Let's stick to adding it if available, as it doesn't hurt usually,
+    // but typically one auth method is enough.
+    // However, to be safe and ensure the user's key works:
+    if (_apiKey.isNotEmpty) q['api_key'] = _apiKey;
+
+    return Uri.parse('$_baseUrl$path').replace(queryParameters: q);
+  }
+
+  Future<List<Movie>> getUpcomingMovies() async {
+    try {
+      final uri = _buildUri('/movie/upcoming');
+      print('Calling API: $uri');
+
+      final res = await http.get(uri, headers: _headers());
+
+      if (res.statusCode != 200) {
+        print('API Error: ${res.statusCode} ${res.body}');
+        throw Exception('TMDb error ${res.statusCode}: ${res.body}');
+      }
+
+      final data = jsonDecode(res.body) as Map<String, dynamic>;
+      final model = UpcomingMoviesModel.fromJson(data);
+      final list = model.results ?? [];
+      return list.map(_mapResultToMovie).toList();
+    } catch (e, stackTrace) {
+      print('Error in getUpcomingMovies: $e');
+      print(stackTrace);
+      rethrow;
+    }
   }
 
   Future<Movie> getMovieDetails(int movieId) async {
-    await Future.delayed(const Duration(milliseconds: 300));
+    try {
+      final uri = _buildUri('/movie/$movieId');
+      print('Calling API: $uri');
 
-    final movies = await getUpcomingMovies();
-    final movie = movies.firstWhere((m) => m.id == movieId);
-
-    return movie;
+      final res = await http.get(uri, headers: _headers());
+      if (res.statusCode != 200) {
+        print('API Error: ${res.statusCode} ${res.body}');
+        throw Exception('TMDb error ${res.statusCode}: ${res.body}');
+      }
+      final json = jsonDecode(res.body) as Map<String, dynamic>;
+      final m = Movie(
+        id: json['id'],
+        title: json['title'] ?? '',
+        posterUrl: json['poster_path'] != null
+            ? '$_imageW500${json['poster_path']}'
+            : '',
+        backdropUrl: json['backdrop_path'] != null
+            ? '$_imageW1280${json['backdrop_path']}'
+            : '',
+        overview: json['overview'] ?? '',
+        genres:
+            (json['genres'] as List<dynamic>?)
+                ?.map((g) => g['name'] as String)
+                .toList() ??
+            [],
+        releaseDate: json['release_date'] ?? '',
+        rating: (json['vote_average'] is num)
+            ? (json['vote_average'] as num).toDouble()
+            : 0.0,
+        runtime: json['runtime'],
+        trailerKey: await getMovieTrailer(movieId),
+      );
+      return m;
+    } catch (e, stackTrace) {
+      print('Error in getMovieDetails: $e');
+      print(stackTrace);
+      rethrow;
+    }
   }
 
   Future<String?> getMovieTrailer(int movieId) async {
-    await Future.delayed(const Duration(milliseconds: 200));
+    try {
+      final uri = _buildUri('/movie/$movieId/videos');
+      print('Calling API: $uri');
 
-    final movies = await getUpcomingMovies();
-    final movie = movies.firstWhere((m) => m.id == movieId);
-
-    return movie.trailerKey;
+      final res = await http.get(uri, headers: _headers());
+      if (res.statusCode != 200) {
+        print('API Error: ${res.statusCode} ${res.body}');
+        return null;
+      }
+      final json = jsonDecode(res.body) as Map<String, dynamic>;
+      final results = (json['results'] as List<dynamic>? ?? []);
+      final yt = results.firstWhere(
+        (v) => (v['site'] == 'YouTube') && (v['type'] == 'Trailer'),
+        orElse: () => null,
+      );
+      return yt != null ? yt['key'] as String? : null;
+    } catch (e, stackTrace) {
+      print('Error in getMovieTrailer: $e');
+      print(stackTrace);
+      return null;
+    }
   }
 
   Future<List<Movie>> searchMovies(String query) async {
-    await Future.delayed(const Duration(milliseconds: 300));
+    try {
+      final uri = _buildUri('/search/movie', {'query': query});
+      print('Calling API: $uri');
 
-    final allMovies = await getUpcomingMovies();
-    final lowerQuery = query.toLowerCase();
-
-    return allMovies.where((movie) {
-      return movie.title.toLowerCase().contains(lowerQuery) ||
-          movie.overview.toLowerCase().contains(lowerQuery);
-    }).toList();
+      final res = await http.get(uri, headers: _headers());
+      if (res.statusCode != 200) {
+        print('API Error: ${res.statusCode} ${res.body}');
+        throw Exception('TMDb error ${res.statusCode}: ${res.body}');
+      }
+      final data = jsonDecode(res.body) as Map<String, dynamic>;
+      final results = (data['results'] as List<dynamic>? ?? []);
+      return results.map((r) {
+        return Movie(
+          id: r['id'],
+          title: r['title'] ?? '',
+          posterUrl: r['poster_path'] != null
+              ? '$_imageW500${r['poster_path']}'
+              : '',
+          backdropUrl: r['backdrop_path'] != null
+              ? '$_imageW1280${r['backdrop_path']}'
+              : '',
+          overview: r['overview'] ?? '',
+          genres: const [],
+          releaseDate: r['release_date'] ?? '',
+          rating: (r['vote_average'] is num)
+              ? (r['vote_average'] as num).toDouble()
+              : 0.0,
+        );
+      }).toList();
+    } catch (e, stackTrace) {
+      print('Error in searchMovies: $e');
+      print(stackTrace);
+      rethrow;
+    }
   }
 
   // Legacy methods for backward compatibility
@@ -171,5 +177,20 @@ class MoviesRepository {
 
   List<Movie> nowPlaying() {
     return [];
+  }
+
+  Movie _mapResultToMovie(Results r) {
+    return Movie(
+      id: r.id ?? 0,
+      title: r.title ?? '',
+      posterUrl: r.posterPath != null ? '$_imageW500${r.posterPath}' : '',
+      backdropUrl: r.backdropPath != null
+          ? '$_imageW1280${r.backdropPath}'
+          : '',
+      overview: r.overview ?? '',
+      genres: const [],
+      releaseDate: r.releaseDate ?? '',
+      rating: (r.voteAverage ?? 0).toDouble(),
+    );
   }
 }
