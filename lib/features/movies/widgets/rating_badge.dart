@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:tentwenty_task/core/app_theme.dart';
 
@@ -9,7 +10,7 @@ class RatingBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AppTheme.surface.withOpacity(0.8),
+        color: AppTheme.surface.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(

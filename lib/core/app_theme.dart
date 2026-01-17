@@ -10,6 +10,8 @@ class AppTheme {
   static const Color textPrimary = Color(0xFF000000);
   static const Color textSecondary = Color(0xFF666666);
   static const Color textSecondary8F = Color(0xFF8F8F8F);
+  static const Color textSecondary202C = Color(0xFF202C43);
+  static const Color textColorDB = Color(0xFFDBDBDF);
   static const Color lightBlueColor = Color(0xFF61C3F2);
   static const Color navBarBackground = Color(0xFF1A1333);
   static const Color white = Color(0xFFFFFFFF);
@@ -24,7 +26,7 @@ class AppTheme {
         primary: primary,
         secondary: secondary,
         surface: surface,
-        background: background,
+        // background: background,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: white,

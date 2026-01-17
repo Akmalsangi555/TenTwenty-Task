@@ -58,10 +58,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   // Genre colors matching the screenshot
   Color _getGenreColor(String genre, int index) {
     final colors = [
-      const Color(0xFF15D2BC), // Teal for Action
-      const Color(0xFFE26CA5), // Pink for Thriller
-      const Color(0xFF564CA3), // Purple for Science
-      const Color(0xFFCD9D0F), // Yellow/Gold for Fiction
+      const Color(0xFF15D2BC),
+      const Color(0xFFE26CA5),
+      const Color(0xFF564CA3),
+      const Color(0xFFCD9D0F),
     ];
     return colors[index % colors.length];
   }
@@ -167,12 +167,9 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                           ),
                           onPressed: () => Navigator.of(context).pop(),
                         ),
-                        const Text('Watch',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        Text('Watch',
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(color: AppTheme.white),
                         ),
                       ],
                     ),
@@ -187,11 +184,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       children: [
                         Text(
                           _detailedMovie?.title ?? widget.movie.title,
-                          style: const TextStyle(
-                            color: Color(0xFFCD9D0F), // Golden color
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: AppTheme.white),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -199,10 +195,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                             _detailedMovie?.releaseDate ??
                                 widget.movie.releaseDate,
                           ),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: AppTheme.white),
                         ),
                         const SizedBox(height: 24),
                         // Action buttons
@@ -218,11 +214,13 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                               ),
                             ),
                             onPressed: _bookTickets,
-                            child: const Text('Select Seats',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                )),
+                            child: Text(
+                              'Select Seats',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.w600, color: AppTheme.white),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -253,11 +251,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                 SizedBox(width: 8),
                                 Text(
                                   'Watch Trailer',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: AppTheme.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(fontWeight: FontWeight.w600, color: AppTheme.white),
                                 ),
                               ],
                             ),
@@ -269,84 +266,71 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      // color: AppTheme.white,
-                      // borderRadius: BorderRadius.only(
-                      //   topLeft: Radius.circular(30),
-                      //   topRight: Radius.circular(30),
-                      // ),
-                    ),
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Genres',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.textPrimary,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Genres',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: AppTheme.textSecondary202C),
+                        ),
+                        const SizedBox(height: 12),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children:
+                          (_detailedMovie?.genres ?? widget.movie.genres)
+                              .asMap()
+                              .entries
+                              .map(
+                                (entry) => Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 7,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _getGenreColor(
+                                  entry.value,
+                                  entry.key,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  16,
+                                ),
+                              ),
+                              child: Text(
+                                entry.value,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w600,
+                                    color: AppTheme.white),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children:
-                                (_detailedMovie?.genres ?? widget.movie.genres)
-                                    .asMap()
-                                    .entries
-                                    .map(
-                                      (entry) => Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
-                                          vertical: 7,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: _getGenreColor(
-                                            entry.value,
-                                            entry.key,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          entry.value,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                          ),
-                          const SizedBox(height: 24),
-                          // Overview
-                          const Text(
-                            'Overview',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.textPrimary,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            _detailedMovie?.overview ?? widget.movie.overview,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: AppTheme.textSecondary8F,
-                              height: 1.5,
-                            ),
-                          ),
-                        ],
-                      ),
+                          )
+                              .toList(),
+                        ),
+                        const SizedBox(height: 24),
+                        // Overview
+                        Text(
+                          'Overview',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: AppTheme.textSecondary202C),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          _detailedMovie?.overview ?? widget.movie.overview,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: AppTheme.textSecondary8F),
+                        ),
+                      ],
                     ),
                   ),
                 ),

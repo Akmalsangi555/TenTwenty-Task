@@ -1,13 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tentwenty_task/core/app_theme.dart';
 import 'package:tentwenty_task/core/app_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tentwenty_task/features/movies/models/movie.dart';
 import 'package:tentwenty_task/features/movies/bloc/movies_bloc.dart';
 import 'package:tentwenty_task/features/movies/bloc/movies_event.dart';
 import 'package:tentwenty_task/features/movies/bloc/movies_state.dart';
-import 'package:tentwenty_task/features/movies/models/movie.dart';
 import 'package:tentwenty_task/features/movies/widgets/custom_bottom_nav_bar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -33,30 +34,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildTopBar() {
-    return Container(
-      // color: AppTheme.white,
-      // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text(
-            'Watch',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: AppTheme.textPrimary,
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Watch',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        GestureDetector(
+          onTap: _openSearch,
+          child: const Icon(
+            Icons.search,
+            color: AppTheme.textPrimary,
+            size: 24,
           ),
-          GestureDetector(
-            onTap: _openSearch,
-            child: const Icon(
-              Icons.search,
-              color: AppTheme.textPrimary,
-              size: 24,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -70,7 +63,7 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -105,22 +98,19 @@ class _HomePageState extends State<HomePage> {
                       end: Alignment.bottomCenter,
                       colors: [
                         Colors.transparent,
-                        Colors.black.withOpacity(0.7),
+                        Colors.black.withValues(alpha: 0.7),
                       ],
                     ),
                   ),
                   padding: const EdgeInsets.all(20),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      movie.title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        movie.title,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(color: AppTheme.white),
                       ),
                     ),
-                  ),
                 ),
               ),
             ],

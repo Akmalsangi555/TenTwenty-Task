@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:tentwenty_task/core/app_theme.dart';
 
@@ -16,9 +17,11 @@ class SectionHeader extends StatelessWidget {
           if (onSeeAll != null)
             TextButton(
               onPressed: onSeeAll,
-              child: const Text(
+              child: Text(
                 'See all',
-                style: TextStyle(color: AppTheme.secondary),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppTheme.secondary,
+                    ),
               ),
             ),
         ],

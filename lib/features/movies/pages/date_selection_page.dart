@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:tentwenty_task/core/app_theme.dart';
 import 'package:tentwenty_task/core/app_router.dart';
@@ -13,7 +14,14 @@ class DateSelectionPage extends StatefulWidget {
 }
 
 class _DateSelectionPageState extends State<DateSelectionPage> {
-  final List<String> dates = ['5 Mar', '6 Mar', '7 Mar', '8 Mar', '9 Mar', '10 Mar'];
+  final List<String> dates = [
+    '5 Mar',
+    '6 Mar',
+    '7 Mar',
+    '8 Mar',
+    '9 Mar',
+    '10 Mar',
+  ];
   int selectedDateIndex = 0;
   int selectedShowIndex = 0;
 
@@ -24,11 +32,14 @@ class _DateSelectionPageState extends State<DateSelectionPage> {
         leading: const BackButton(),
         title: Column(
           children: [
-            Text(widget.movie.title),
+            Text(widget.movie.title, style: Theme.of(context).textTheme.titleMedium
+                ?.copyWith(color: AppTheme.textSecondary202C),),
             const SizedBox(height: 4),
             Text(
               'In Theaters ${_formatReleaseDate(widget.movie.releaseDate)}',
-              style: const TextStyle(color: AppTheme.lightBlueColor, fontSize: 12),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500, color: AppTheme.lightBlueColor,
+              ),
             ),
           ],
         ),
@@ -41,10 +52,12 @@ class _DateSelectionPageState extends State<DateSelectionPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 const SizedBox(height: 100),
-                const Text('Date',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                Text(
+                  'Date',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: AppTheme.textSecondary202C),
+                ),
                 const SizedBox(height: 8),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -56,20 +69,32 @@ class _DateSelectionPageState extends State<DateSelectionPage> {
                         child: GestureDetector(
                           onTap: () => setState(() => selectedDateIndex = i),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 10,
+                            ),
                             decoration: BoxDecoration(
-                              color: selected ? AppTheme.lightBlueColor : Colors.white,
+                              color: selected
+                                  ? AppTheme.lightBlueColor
+                                  : Colors.white,
                               borderRadius: BorderRadius.circular(24),
                               border: Border.all(
-                                  color: selected ?
-                                  AppTheme.lightBlueColor : Colors.black12),
+                                color: selected
+                                    ? AppTheme.lightBlueColor
+                                    : Colors.black12,
+                              ),
                             ),
                             child: Text(
                               dates[i],
-                              style: TextStyle(
-                                color: selected ? Colors.white : Colors.black87,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    color: selected
+                                        ? AppTheme.white
+                                        : AppTheme.textSecondary202C,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                             ),
                           ),
                         ),
@@ -82,9 +107,19 @@ class _DateSelectionPageState extends State<DateSelectionPage> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      _showCard(0, '12:30', 'Cinetech + Hall 1', 'From 50\$ or 2500 bonus'),
+                      _showCard(
+                        0,
+                        '12:30',
+                        'Cinetech + Hall 1',
+                        'From 50\$ or 2500 bonus',
+                      ),
                       const SizedBox(width: 12),
-                      _showCard(1, '13:30', 'Cinetech + Hall 1', 'From 75\$ or 3000 bonus'),
+                      _showCard(
+                        1,
+                        '13:30',
+                        'Cinetech + Hall 1',
+                        'From 75\$ or 3000 bonus',
+                      ),
                       const SizedBox(width: 12),
                     ],
                   ),
@@ -115,10 +150,15 @@ class _DateSelectionPageState extends State<DateSelectionPage> {
                       timeLabel: selectedShowIndex == 0 ? '12:30' : '13:30',
                       hallLabel: 'Hall 1',
                     );
-                    Navigator.of(context).pushNamed(AppRouter.seatSelection, arguments: args);
+                    Navigator.of(
+                      context,
+                    ).pushNamed(AppRouter.seatSelection, arguments: args);
                   },
-                  child: const Text('Select Seats',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                  child: Text(
+                    'Select Seats',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w600, color: AppTheme.white),
+                  ),
                 ),
               ),
             ),
@@ -138,11 +178,14 @@ class _DateSelectionPageState extends State<DateSelectionPage> {
           Row(
             children: [
               Text(time,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500, color: AppTheme.textSecondary202C),
               ),
               const SizedBox(width: 6),
-              Text(hall,
-                style: const TextStyle(fontSize: 12, color: Colors.black54),
+              Text(
+                hall,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppTheme.textSecondary8F),
               ),
             ],
           ),
@@ -160,16 +203,17 @@ class _DateSelectionPageState extends State<DateSelectionPage> {
                   width: selected ? 1 : 1,
                 ),
               ),
-              child: Container(
-                child: const _MiniSeatPreview(),
-              ),
+              child: SizedBox(child: const _MiniSeatPreview()),
             ),
           ),
           Row(
             children: [
               Text(
                 priceText,
-                style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: AppTheme.textSecondary202C,
+                ),
               ),
             ],
           ),
@@ -184,7 +228,18 @@ class _DateSelectionPageState extends State<DateSelectionPage> {
       final parts = date.split('-');
       if (parts.length == 3) {
         final months = [
-          'January','February','March','April','May','June','July','August','September','October','November','December'
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
         ];
         final month = int.parse(parts[1]);
         final day = int.parse(parts[2]);
@@ -220,7 +275,11 @@ class _MiniSeatPainter extends CustomPainter {
     final arcPath = Path();
     arcPath.moveTo(size.width * 0.08, size.height * 0.15);
     arcPath.quadraticBezierTo(
-        size.width * 0.5, 0, size.width * 0.92, size.height * 0.15);
+      size.width * 0.5,
+      0,
+      size.width * 0.92,
+      size.height * 0.15,
+    );
     canvas.drawPath(arcPath, arcPaint);
 
     final cols = 18;

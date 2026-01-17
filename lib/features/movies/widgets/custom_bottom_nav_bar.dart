@@ -29,7 +29,7 @@ class CustomBottomNavBar extends StatelessWidget {
         child: BottomNavigationBar(
           backgroundColor: const Color(0xFF2E2739),
           selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white.withOpacity(0.5),
+          unselectedItemColor: Colors.white.withValues(alpha: 0.5),
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,

@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
-import 'package:tentwenty_task/core/app_theme.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:tentwenty_task/features/movies/models/movie.dart';
 import 'package:tentwenty_task/features/movies/widgets/rating_badge.dart';
 
@@ -31,7 +31,7 @@ class MoviePosterCard extends StatelessWidget {
                       begin: Alignment.bottomCenter,
                       end: Alignment.center,
                       colors: [
-                        Colors.black.withOpacity(0.7),
+                        Colors.black.withValues(alpha: 0.7),
                         Colors.transparent,
                       ],
                     ),

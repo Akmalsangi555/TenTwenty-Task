@@ -89,32 +89,29 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: Text(widget.movie.title),
+        title: Column(
+          children: [
+            Text(widget.movie.title, style: Theme.of(context).textTheme.titleMedium
+                ?.copyWith(color: AppTheme.textSecondary202C),),
+            Text(_headerText(),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500, color: AppTheme.lightBlueColor,
+              ),
+            ),
+          ],
+        ),
+        centerTitle: true,
         leading: const BackButton(),
         actions: const [],
       ),
       body: Column(
         children: [
-          Container(
-            color: AppTheme.white,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                Text(_headerText(),
-                  style: const TextStyle(color: Colors.black54, fontSize: 13),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: Stack(
               children: [
                 SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 1,
-                      vertical: 20,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -234,19 +231,14 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
                       children: [
                         Text(
                           'Total Price',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontSize: 10, color: AppTheme.textSecondary202C),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           '\$ $totalPrice',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600, color: AppTheme.textSecondary202C),
                         ),
                       ],
                     ),
@@ -256,7 +248,7 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
                     height: 48,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF61C3F2), // lightBlueColor
+                        backgroundColor: const Color(0xFF61C3F2),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -268,7 +260,7 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
                       child: const Text(
                         'Proceed to pay',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -369,9 +361,9 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
           ),
         ),
         const SizedBox(width: 8),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.black54, fontSize: 13),
+        Text(label,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500, color: AppTheme.textSecondary8F),
         ),
       ],
     );
@@ -442,9 +434,8 @@ class _ScreenArcPainter extends CustomPainter {
         text: 'SCREEN',
         style: TextStyle(
           color: Colors.black54,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 2,
+          fontSize: 8,
+          fontWeight: FontWeight.w500,
         ),
       ),
       textDirection: TextDirection.ltr,

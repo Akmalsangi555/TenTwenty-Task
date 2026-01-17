@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tentwenty_task/core/app_theme.dart';
@@ -98,10 +99,18 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                     Text(
                       movie.title,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
+                        color: AppTheme.textSecondary202C,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      movie.releaseDate,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppTheme.textColorDB,
+                        fontWeight: FontWeight.w500
+                      ),
                     ),
                     const SizedBox(height: 4),
                     if (movie.genres.isNotEmpty)
@@ -168,10 +177,8 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                   right: 0,
                   child: Text(
                     movie.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppTheme.white,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -214,16 +221,17 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                   child: TextField(
                     controller: _searchController,
                     autofocus: true,
-                    style: const TextStyle(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: AppTheme.textPrimary,
                       fontSize: 16,
                     ),
                     decoration: InputDecoration(
                       hintText: 'TV shows, movies and more',
-                      hintStyle: const TextStyle(
-                        color: AppTheme.textSecondary,
-                        fontSize: 16,
-                      ),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium
+                          ?.copyWith(
+                            color: AppTheme.textSecondary,
+                            fontSize: 16,
+                          ),
                       prefixIcon: Icon(
                         Icons.search,
                         color: AppTheme.textPrimary,
